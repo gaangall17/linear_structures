@@ -34,7 +34,13 @@ Llevan una secuencia segun una regla
 
 ## Colecciones incorporadas
 
-> - Listas []
-> - Tuplas ()
-> - Conjuntos {}
-> - Diccionarios {:}
+> - Listas [  ]
+> - Tuplas (  )
+> - Conjuntos {  }
+> - Diccionarios {  :  }
+
+## Array
+
+Los Arrays son listas con la restriccion de que sus dimensiones y tamano son declaradas al inicio y no se pueden cambiar.  
+Optimiza la memoria al establecer desde el inicio la cantidad de bits a utilizar
+
