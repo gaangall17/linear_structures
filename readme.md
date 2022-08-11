@@ -44,3 +44,17 @@ Llevan una secuencia segun una regla
 Los Arrays son listas con la restriccion de que sus dimensiones y tamano son declaradas al inicio y no se pueden cambiar.  
 Optimiza la memoria al establecer desde el inicio la cantidad de bits a utilizar
 
+## Linked Structures
+
+Consiste en nodos. Recorremos los nodos hasta llegar al valor
+
+> - Data: Valor almacenado en el nodo
+> - Next: Referencia al siguiente nodo
+> - Previous: Referencia al nodo anterior
+> - Head: Primer nodo
+> - Tail: Ultimo nodo
+
+Son utilizados para generar estructuras más complejas como Queues
+
+Son utilizados en Hacer/Rehacer y en Historal de un navegador
+

@@ -143,4 +143,107 @@ class Cube():
             for col in range(self.get_width()):
                 for layer in range(self.get_deep()):
                     self.data[row][col][layer] = random.randrange(low, high)
+
+
+##Class to represent a node
+class Node():
+    def __init__(self, data, next=None):
+        self.data = data
+        self.next = next
+
+
+##Class for singly linked list
+class SinglyLinkedList():
+    def __init__(self):
+
+        #tail is the parameter where we add the first node
+        #as we are going to assign nodes to the list, it will always show a 'data' and a 'next'
+        #next value would iterate in order as they were added, always starting in tail
+        #first_value
+        #second_value <- fisrt_value
+        #third_value <- second_value <- first_value
+        
+        self.tail = None
+        self.head = None
+        self.size = 0
     
+    def append(self, data):
+        node = Node(data)
+
+        #If list is empty -> node is assigned to tail
+        if self.tail == None:
+            self.tail = node
+
+        #If list is not empty
+        else:
+            current = self.tail
+
+            #We iterate until we reach final node
+            while current.next:
+                current = current.next
+            
+            #We assign new value next to last node
+            current.next = node
+        
+        self.head = node
+        self.size += 1
+    
+    def size(self):
+        return str(self.size)
+    
+    def iter(self):
+        current = self.tail
+
+        while current:
+            val = current.data
+            current = current.next
+            yield val
+        
+    def delete(self, data):
+        current = self.tail
+        previous = self.tail
+
+        #Iterating in the list
+        while current:
+
+            #if any node equals value to delete
+            if current.data == data:
+
+                #If it is the first node, we assign its next node (second) as tail (first)
+                if current == self.tail:
+                    self.tail = current.next
+                
+                #If it is not the first node, we assign its next node as next node of the previous node
+                else:
+                    previous.next = current.next
+                    if current == self.head:
+                        self.head = previous
+            
+            previous = current
+            current = current.next
+    
+    def search(self, data):
+        found = 0
+        for node in self.iter():
+            if data == node:
+                found = 1
+        return found
+    
+    def clear(self):
+        self.tail = None
+        self.head = None
+        self.size = 0
+
+    def __str__(self):
+        text = ""
+        first = True
+        for data in self.iter():
+            if not(first):
+                connector = ' <- '
+            else:
+                connector = ''
+            text = str(data) + connector + text
+            first = False
+        return text  
+
+
