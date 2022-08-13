@@ -223,10 +223,10 @@ class SinglyLinkedList():
             current = current.next
     
     def search(self, data):
-        found = 0
+        found = False
         for node in self.iter():
             if data == node:
-                found = 1
+                found = True
         return found
     
     def clear(self):
@@ -246,4 +246,83 @@ class SinglyLinkedList():
             first = False
         return text  
 
+    #Method to get data from an specific position
+    def __getitem__(self, index):
+        
+        if index >= self.size or index < 0:
+            raise IndexError
+        
+        probe = self.tail
+        probe_position = self.size - 1
 
+        while probe:
+            if probe_position == index:
+                return probe.data
+            probe = probe.next
+            probe_position -= 1
+    
+    #Method to insert data in an specific position
+    def __setitem__(self, index, new_item):
+        
+        if index >= self.size or index < 0:
+            raise IndexError
+        
+        probe = self.tail
+        probe_position = self.size - 1
+
+        while probe:
+            if probe_position == index:
+                probe.data = new_item
+            probe = probe.next
+            probe_position -= 1
+
+    #Method to insert new node in a specific position
+    def insert_node(self, index, data):
+        
+        if index > self.size or index < 0:
+            raise IndexError
+        
+        if index == 0:
+            self.append(data)
+        elif index == self.size:
+            new_node = Node(data, self.tail)
+            self.tail = new_node
+            self.size += 1
+        else:
+            new_node = Node(data)
+            probe = self.tail
+            probe_position = self.size - 1
+            while probe:
+                if probe_position == index:
+                    new_node.next = probe.next
+                    probe.next = new_node
+                probe = probe.next
+                probe_position -= 1
+            self.size += 1
+
+    #Method to insert in last position
+    def insert_last(self, data):
+        self.insert_node(self.size, data)
+
+    #Method to delete a node in a specific position
+    def delete_node(self, index):
+        
+        if index >= self.size or index < 0:
+            raise IndexError
+        
+        if index == self.size - 1:
+            self.tail = self.tail.next
+            self.size -= 1
+        else:
+            previous_probe = self.tail
+            probe = self.tail
+            probe_position = self.size - 1
+            while probe:
+                if probe_position == index:
+                    previous_probe.next = probe.next
+                    if probe_position == 0:
+                        self.head = previous_probe
+                previous_probe = probe
+                probe = probe.next
+                probe_position -= 1
+            self.size -= 1
