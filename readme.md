@@ -58,3 +58,6 @@ Son utilizados para generar estructuras más complejas como Queues
 
 Son utilizados en Hacer/Rehacer y en Historal de un navegador
 
+## Circular Linked Structures
+
+Igual que una Singly Linked List pero head.next ahora referencia a tail

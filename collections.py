@@ -326,3 +326,240 @@ class SinglyLinkedList():
                 probe = probe.next
                 probe_position -= 1
             self.size -= 1
+
+
+##Class for circular linked list
+class CircularLinkedList():
+
+    def __init__(self):
+
+        #tail is the parameter where we add the first node
+        #as we are going to assign nodes to the list, it will always show a 'data' and a 'next'
+        #next value would iterate in order as they were added, always starting in tail
+        #head value (last value) would reference the first
+        # ... first_value (head)(tail) <- first_value (head)(tail)
+        # ... first_value (tail) <- second_value (head) <- fisrt_value (tail)
+        # ... first_value (tail) <- third_value (head) <- second_value <- first_value (tail)
+        
+        self.tail = None
+        self.head = None
+        self.size = 0
+    
+
+    def append(self, data):
+        node = Node(data)
+
+        #If list is empty -> node is assigned to tail
+        if self.tail == None:
+            self.tail = node
+
+        #If list is not empty
+        else:
+            current = self.tail
+
+            #We iterate until we reach final node
+            while current.next:
+                if self.head == current:
+                    break
+                current = current.next
+            
+            #We assign new value next to last node
+            current.next = node
+        
+        self.head = node
+        self.head.next = self.tail
+        self.size += 1
+    
+
+    def iter(self):
+        current = self.tail
+
+        while current:
+            val = current.data
+            yield val
+            if self.head == current:
+                break
+            current = current.next
+
+
+    def __str__(self):
+        text = ""
+        for data in self.iter():
+            connector = ' <- '
+            text = connector + str(data) + text
+        text = "... " + str(self.tail.data) + text
+        return text
+
+
+#Child class of Node with a previous atribute
+class TwoWayNode(Node):
+    def __init__(self, data, previous=None, next=None):
+        Node.__init__(self, data, next)
+        self.previous = previous
+    
+
+#Class for a Double linked list
+#This list would be created from head to tail, but it could be iterated
+#from head to tail or from tail to head
+#first (head)(tail)
+#first (head) <-> second (tail)
+#first (head) <-> second <-> third (tail)
+class DoubleLinkedList():
+
+    def __init__(self):
+
+        self.head = None
+        self.tail = None
+        self.size = 0
+    
+
+    def append(self, data):
+        node = TwoWayNode(data)
+
+        if self.head == None:
+            self.head = node
+        else:
+            current = self.head
+            while current.next:
+                current = current.next
+            current.next = node
+            node.previous = current
+        
+        self.tail = node
+        self.size += 1
+    
+
+    def size(self):
+        return str(self.size)
+    
+
+    def iter_forward(self):
+        current = self.head
+
+        while current:
+            val = current.data
+            current = current.next
+            yield val
+
+
+    def iter_reverse(self):
+        current = self.tail
+
+        while current:
+            val = current.data
+            current = current.previous
+            yield val
+    
+
+    def __str__(self):
+        text = ""
+        first = True
+        for data in self.iter_forward():
+            if not(first):
+                connector = ' <-> '
+            else:
+                connector = ''
+            text = text + connector + str(data)
+            first = False
+        text += "  :  "
+        text_reverse = ""
+        first = True
+        for data in self.iter_reverse():
+            if not(first):
+                connector = ' <-> '
+            else:
+                connector = ''
+            text_reverse =  str(data) + connector + text_reverse
+            first = False
+        text += text_reverse
+        return text
+    
+
+    def clear(self):
+        self.tail = None
+        self.head = None
+        self.size = 0
+    
+
+    def __getitem__(self, index):
+        
+        if index >= self.size or index < 0:
+            raise IndexError
+        
+        probe = self.head
+        probe_position = 0
+
+        while probe:
+            if probe_position == index:
+                return probe.data
+            probe = probe.next
+            probe_position += 1
+    
+
+    def __setitem__(self, index, new_item):
+        
+        if index >= self.size or index < 0:
+            raise IndexError
+        
+        probe = self.head
+        probe_position = 0
+
+        while probe:
+            if probe_position == index:
+                probe.data = new_item
+            probe = probe.next
+            probe_position += 1
+    
+
+    def insert_node(self, index, data):
+        
+        if index > self.size or index < 0:
+            raise IndexError
+        
+        if index == self.size:
+            self.append(data)
+        else:
+            new_node = TwoWayNode(data)
+            probe = self.head
+            probe_position = 0
+            while probe:
+                if probe_position == index:
+                    new_node.next = probe
+                    new_node.previous = probe.previous
+                    if probe.previous:
+                        probe.previous.next = new_node
+                    if index == 0:
+                        self.head = new_node
+                    probe.previous = new_node
+                probe = probe.next
+                probe_position += 1
+            self.size += 1
+
+
+    def delete_node(self, index):
+        
+        if index >= self.size or index < 0:
+            raise IndexError
+        
+        previous_probe = self.head.previous
+        probe = self.head
+        next_probe = self.head.next
+        probe_position = 0
+
+        while probe:
+            if probe_position == index:
+                if previous_probe:
+                    previous_probe.next = probe.next
+                if next_probe:
+                    next_probe.previous = probe.previous
+                if index == 0:
+                    self.head = probe.next
+                if index == self.size -1:
+                    self.tail = probe.previous
+            previous_probe = probe
+            probe = probe.next
+            if probe:
+                next_probe = probe.next
+            probe_position += 1
+        self.size -= 1
+            
