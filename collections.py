@@ -562,4 +562,369 @@ class DoubleLinkedList():
                 next_probe = probe.next
             probe_position += 1
         self.size -= 1
-            
+
+
+#Class for STACK collection
+#Collection would use class Node as elements
+#Every time we add an element, the previous top become the next node of the new top
+#first (top)
+#second (top) -> first
+#third (top) -> second -> first
+class Stack():
+    
+    def __init__(self):
+        self.top = None
+        self.size = 0
+
+
+    def is_empty(self):
+        return self.size == 0
+    
+
+    def __len__(self):
+        return self.size
+
+
+    def __str__(self):
+        text = ""
+        first = True
+        for element in self:
+            if first:
+                connector = ''
+            else:
+                connector = '  >  '
+            text = text + connector + str(element)
+            first = False
+        return text
+
+
+    def __iter__(self):
+        probe = self.top
+        while probe:
+            element = probe.data
+            probe = probe.next
+            yield element
+
+
+    def __contains__(self, item):
+        found = False
+        for element in self:
+            if element == item:
+                found = True
+        return found
+
+
+    def __add__(self, stack):
+
+        new_stack = Stack()
+        
+        aux_list = []
+        for element in self:
+            aux_list.append(element)
+        for i in range(len(self)):
+            new_stack.push(aux_list[len(self)-1-i])
+        
+        aux_list = [] 
+        for element in stack:
+            aux_list.append(element)
+        for i in range(len(stack)):
+            new_stack.push(aux_list[len(stack)-1-i])
+
+        return new_stack
+
+
+    def clear(self):
+        self.top = None
+        self.size = 0
+
+
+    def peek(self):
+        if self.is_empty():
+            item = None
+        else:
+            item = self.top.data
+        return item
+
+
+    def push(self, item):
+        new_node = Node(item)
+        new_node.next = self.top
+        self.top = new_node
+        self.size += 1
+
+
+    def pop(self):
+        item = None
+        if not self.is_empty():
+            item = self.top.data
+            self.top = self.top.next
+            self.size -= 1
+        return item
+
+
+#Class for STACK collection
+#Collection would use class Array as elements
+#Every time we add an element, the previous top become the next node of the new top
+#first (top)
+#second (top) -> first
+#third (top) -> second -> first
+class StackArray():
+
+    def __init__(self, capacity):
+        if capacity > 0:
+            self.data = Array(capacity)
+            self.size = 0
+            self.capacity = capacity
+        else:
+            raise ValueError('Capacity of the stack must be higher than 0')
+
+
+    def is_empty(self):
+        return self.size == 0
+    
+
+    def is_full(self):
+        return self.size == self.capacity
+
+
+    def usage(self):
+        return round(self.size/self.capacity, 2)
+
+
+    def __len__(self):
+        return self.size
+
+
+    def __str__(self):
+        text = ""
+        first = True
+        for element in self:
+            if first:
+                connector = ''
+            else:
+                connector = '  >  '
+            text = text + connector + str(element)
+            first = False
+        return text
+
+
+    def __iter__(self):
+        top = self.size - 1
+        while top >= 0:
+            element = self.data[top]
+            top -= 1
+            yield element
+
+
+    def __contains__(self, item):
+        found = False
+        for element in self:
+            if element == item:
+                found = True
+        return found
+
+
+    def __add__(self, stack):
+
+        new_stack = StackArray(self.capacity + stack.capacity)
+        
+        aux_list = []
+        for element in self:
+            aux_list.append(element)
+        for i in range(len(self)):
+            new_stack.push(aux_list[len(self)-1-i])
+        
+        aux_list = [] 
+        for element in stack:
+            aux_list.append(element)
+        for i in range(len(stack)):
+            new_stack.push(aux_list[len(stack)-1-i])
+
+        return new_stack
+
+
+    def clear(self):
+        self.data = Array(self.capacity)
+        self.size = 0
+
+
+    def peek(self):
+        if self.is_empty():
+            item = None
+        else:
+            item = self.data[self.size - 1]
+        return item
+
+
+    def push(self, item):
+        if not self.is_full():
+            self.size += 1
+            self.data[self.size - 1] = item
+        else:
+            raise ValueError('Stack is already full')
+
+
+    def pop(self):
+        item = None
+        if not self.is_empty():
+            item = self.data[self.size - 1]
+            self.data[self.size -1] = None
+            self.size -= 1
+        return item
+
+
+#Class for QUEUE collection based on lists
+#first (front) (rear)
+#first (front) -> second (rear)
+#first (front) -> second -> third (rear)
+class ListQueue():
+
+    def __init__(self):
+        self.data = list()
+        self.rear = 0
+        self.front = 0
+        self.size = 0
+    
+
+    def is_empty(self):
+        return self.size == 0
+    
+
+    def __len__(self):
+        return self.size
+    
+
+    def __str__(self):
+        text = ""
+        first = True
+        for element in self:
+            if first:
+                connector = ''
+            else:
+                connector = '  >  '
+            text = text + connector + str(element)
+            first = False
+        return text
+
+
+    def __iter__(self):
+        n = self.front
+        if not self.is_empty():
+            while n <= self.rear:
+                element = self.data[n]
+                n += 1
+                yield element
+
+
+    def __contains__(self, item):
+        found = False
+        for element in self:
+            if element == item:
+                found = True
+        return found
+
+
+    def __add__(self, queue2):
+        new_queue = ListQueue()
+        for element in self:
+            new_queue.add(element)
+        for element in queue2:
+            new_queue.add(element)
+        return new_queue
+
+
+    def clear(self):
+        self.data = list()
+        self.rear = 0
+        self.front = 0
+        self.size = 0
+
+
+    def peek(self):
+        if self.is_empty():
+            item = None
+        else:
+            item = self.data[self.front]
+        return item
+
+
+    def add(self, item):
+        if not self.is_empty():
+            self.rear += 1
+        self.data.append(item)
+        self.size += 1
+
+
+    def pop(self):
+        item = None
+        if not self.is_empty():
+            item = self.data[self.front]
+            for i in range(self.rear):
+                self.data[i] = self.data[i + 1]
+            self.data.pop()
+            self.rear -= 1
+            self.size -= 1
+        return item
+
+
+#Class for QUEUE collection based on two STACKS
+#first (front) (rear)
+#first (front) -> second (rear)
+#first (front) -> second -> third (rear)
+class DoubleStackQueue():
+
+    def __init__(self):
+        self.inbound_stack = []
+        self.outbound_stack = []
+
+    def add(self, item):
+        self.inbound_stack.append(item)
+
+    def pop(self):
+        if not self.outbound_stack:
+            while self.inbound_stack:
+                self.outbound_stack.append(self.inbound_stack.pop())
+        
+        return self.outbound_stack.pop()
+
+
+#Class for QUEUE collection based on TwoWayNode
+#first (front) (rear)
+#first (front) -> second (rear)
+#first (front) -> second -> third (rear)
+class NodeQueue():
+
+    def __init__(self):
+        self.head = None
+        self.tail = None
+        self.count = 0
+
+
+    def add(self, item):
+        new_node = TwoWayNode(item)
+        if self.head is None:
+            self.head = new_node
+            self.tail = self.head
+        else:
+            new_node.previous = self.tail
+            self.tail.next = new_node
+            self.tail = new_node
+        
+        self.count += 1
+
+
+    def pop(self):
+        probe = self.head
+
+        if self.count == 1:
+            self.count -= 1
+            self.head = None
+            self.tail = None
+        elif self.count > 1:
+            self.head = self.head.next
+            self.head.previous = None
+            self.count -= 1
+
+        return probe.data
+
+

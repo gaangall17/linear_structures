@@ -61,3 +61,41 @@ Son utilizados en Hacer/Rehacer y en Historal de un navegador
 ## Circular Linked Structures
 
 Igual que una Singly Linked List pero head.next ahora referencia a tail
+
+## Stacks
+
+Colección lineal basada en arreglos o linked lists con la funcionalidad **LIFO** (Last-in First-out)
+
+Entre sus métodos se encuentran PUSH (Añadir) y POP (Remover)
+
+Entre sus atributos se encuentran TOP (último valor agregado) y BOTTOM (Primer valor agregado)
+
+> - .is_empty()
+> - .__len__()
+> - .__str__()
+> - .__iter__(): Iteración de TOP a BOTTOM
+> - .__contains__(item)
+> - .__add__(stack2)
+> - .clear()
+> - .peek(): Retorna el elemento TOP
+> - .push(item):
+> - .pop():
+
+## Queues
+
+Collección lineal con la funcionalidad **FIFO** (First-in First-out)
+
+Los elementos pueden tener prioridad, alterando la regla FIFO
+
+Entre sus atributos se encuentran REAR (último valor agregado) y FRONT (Valor más antiguo)
+
+> - .is_empty()
+> - .__len__()
+> - .__str__()
+> - .__iter__(): Iteración de FRONT a REAR
+> - .__contains__(item)
+> - .__add__(queue2)
+> - .clear()
+> - .peek(): Retorna el elemento FRONT
+> - .add(item):
+> - .pop():
